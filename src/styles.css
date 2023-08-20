@@ -1,0 +1,30 @@
+p.visible {
+  display: block;
+}
+
+.loader,
+.error {
+  display: none;
+}
+
+.cat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-container {
+  display: flex;
+  gap: 30px;
+}
+
+.text-container {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+}
+
+img {
+  background-position: center;
+  background-size: cover;
+}
