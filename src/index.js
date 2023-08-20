@@ -1,11 +1,11 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
-
+import Notiflix from 'notiflix';
 import SlimSelect from 'slim-select';
 import '../node_modules/slim-select/dist/slimselect.css';
 
 let optionsContainer = document.querySelector('.breed-select');
 let infoContainer = document.querySelector('.cat-info');
-let loader = document.querySelector('p.loader');
+let loader = document.querySelector('.loader');
 let errorAlert = document.querySelector('p.error');
 
 function optionsMarkup(data) {
@@ -31,20 +31,31 @@ function catMarkup(cat) {
 fetchBreeds()
   .then(data => {
     console.log(data);
-    optionsContainer.innerHTML = optionsMarkup(data);
+    optionsContainer.innerHTML =
+      `<option data-placeholder="true"></option>` + optionsMarkup(data);
   })
-  .catch(error => errorAlert.classList.add('visible'));
-
-optionsContainer.addEventListener('input', () => {
-  loader.classList.add('visible');
-  fetchCatByBreed(optionsContainer.value)
-    .then(cat => (infoContainer.innerHTML = catMarkup(cat)))
-    .catch(error => errorAlert.classList.add('visible'));
-});
-
-new SlimSelect({
-  select: '#single',
-  settings: {
-    placeholderText: 'Select a cat',
-  },
-});
+  .then(() => {
+    new SlimSelect({
+      select: '#single',
+      settings: {
+        placeholderText: 'Select a cat',
+      },
+      events: {
+        afterChange: () => {
+          loader.classList.add('visible');
+          fetchCatByBreed(optionsContainer.value)
+            .then(cat => (infoContainer.innerHTML = catMarkup(cat)))
+            .catch(error =>
+              Notiflix.Notify.failure(
+                `Occured failure. Try to reload the page. Error: ${error}`
+              )
+            );
+        },
+      },
+    });
+  })
+  .catch(error =>
+    Notiflix.Notify.failure(
+      `Occured failure. Try to reload the page. Error: ${error}`
+    )
+  );
