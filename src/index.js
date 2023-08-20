@@ -1,5 +1,8 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api';
 
+import SlimSelect from 'slim-select';
+import '../node_modules/slim-select/dist/slimselect.css';
+
 let optionsContainer = document.querySelector('.breed-select');
 let infoContainer = document.querySelector('.cat-info');
 let loader = document.querySelector('p.loader');
@@ -37,4 +40,11 @@ optionsContainer.addEventListener('input', () => {
   fetchCatByBreed(optionsContainer.value)
     .then(cat => (infoContainer.innerHTML = catMarkup(cat)))
     .catch(error => errorAlert.classList.add('visible'));
+});
+
+new SlimSelect({
+  select: '#single',
+  settings: {
+    placeholderText: 'Select a cat',
+  },
 });
