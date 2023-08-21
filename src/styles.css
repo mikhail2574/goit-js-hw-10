@@ -5,11 +5,9 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
-.visible {
-  display: block;
-}
-
-span.loader {
+span.invisible,
+select.invisible,
+div.invisible {
   display: none;
 }
 
@@ -32,7 +30,7 @@ span.loader {
 }
 
 .text-container {
-  width: 500px;
+  max-width: 500px;
   display: flex;
   flex-direction: column;
   gap: 50px;
@@ -43,8 +41,9 @@ img {
   background-size: cover;
 }
 
+div.breed-select,
 .breed-select {
-  width: 200px;
+  max-width: 200px;
   margin-left: 50px;
   margin-top: 50px;
 }

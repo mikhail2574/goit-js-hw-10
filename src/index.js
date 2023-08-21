@@ -6,7 +6,7 @@ import '../node_modules/slim-select/dist/slimselect.css';
 let optionsContainer = document.querySelector('.breed-select');
 let infoContainer = document.querySelector('.cat-info');
 let loader = document.querySelector('.loader');
-let errorAlert = document.querySelector('p.error');
+let image = document.querySelector('.cat-image');
 
 function optionsMarkup(data) {
   return data
@@ -42,9 +42,14 @@ fetchBreeds()
       },
       events: {
         afterChange: () => {
-          loader.classList.add('visible');
+          infoContainer.classList.add('invisible');
+          loader.classList.remove('invisible');
           fetchCatByBreed(optionsContainer.value)
             .then(cat => (infoContainer.innerHTML = catMarkup(cat)))
+            .then(() => {
+              loader.classList.add('invisible');
+              infoContainer.classList.remove('invisible');
+            })
             .catch(error =>
               Notiflix.Notify.failure(
                 `Occured failure. Try to reload the page. Error: ${error}`
@@ -53,6 +58,8 @@ fetchBreeds()
         },
       },
     });
+    loader.classList.add('invisible');
+    document.getElementById('single').classList.remove('invisible');
   })
   .catch(error =>
     Notiflix.Notify.failure(
